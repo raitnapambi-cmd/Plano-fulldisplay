@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function adminKZ01() {
+      return request.auth != null && request.auth.uid == "GANTI_UID_ADMIN";
+    }
+    // Pegawai tanpa akun dapat membaca planogram KZ01.
+    // PENTING: akses baca PUBLIK bagi siapa pun yang mengetahui konfigurasi proyek.
+    match /planograms/{storeId} {
+      allow get: if storeId == "KZ01";
+      allow list: if false;
+      allow create, update, delete: if storeId == "KZ01" && adminKZ01();
+
+      match /versions/{versionId}/chunks/{chunkId} {
+        allow get, list: if storeId == "KZ01";
+        allow create, update, delete: if storeId == "KZ01" && adminKZ01();
+      }
+      match /settings/{settingId} {
+        allow get: if storeId == "KZ01" && settingId == "map";
+        allow list: if false;
+        allow create, update, delete: if storeId == "KZ01" && settingId == "map" && adminKZ01();
+      }
+    }
+  }
+}

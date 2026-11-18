@@ -9,10 +9,29 @@
 /* Denah interaktif, marker disimpan per rak di perangkat */
 .map-marker[hidden],.map-no-point[hidden],.map-editor[hidden]{display:none!important}.map-card{padding:12px}.map-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.map-head strong{font-size:1rem}.map-views{display:flex;gap:7px;margin:0 0 9px}.map-views button{flex:1;border:1px solid #c8d4e5;border-radius:10px;background:#f0f5fb;color:#123d78;padding:9px;font-weight:800}.map-views button.active{background:#0755c9;color:#fff}.map-viewport{width:100%;max-height:510px;overflow:auto;border:1px solid #dce3ed;border-radius:12px;background:#f8f8f8}.map-board{position:relative;width:100%;min-width:290px;line-height:0;cursor:default}.map-board.map-edit{cursor:crosshair;outline:3px solid #ffbd4e;outline-offset:-3px}.map-board img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}.map-marker{position:absolute;width:50px;height:50px;transform:translate(-50%,-50%);pointer-events:none;z-index:3;display:grid;place-items:center}.map-marker .map-dot{width:18px;height:18px;border:4px solid white;border-radius:50%;background:#e01727;box-shadow:0 0 0 2px #d61929,0 2px 9px #0005}.map-marker:before,.map-marker:after{content:'';position:absolute;border:3px solid #e01727;border-radius:50%;width:27px;height:27px;animation:mapPulse 1.8s ease-out infinite}.map-marker:after{animation-delay:.9s}.map-pin-label{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);color:#fff;background:#b91c1c;padding:6px 9px;border-radius:8px;font-size:12px;font-weight:950;line-height:1.1;white-space:nowrap;box-shadow:0 2px 8px #0004}.map-pin-label:after{content:'';position:absolute;top:100%;left:50%;height:18px;border-left:2px dashed #e01727;animation:mapDash 1s linear infinite}.map-marker.updated .map-dot{animation:mapPop .4s ease-out}.map-no-point{position:absolute;left:8px;right:8px;bottom:8px;background:#fffef2eb;border:1px solid #f5d88c;border-radius:9px;padding:9px;color:#6c4d07;font-size:12px;line-height:1.4}.map-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.map-actions button{border:1px solid #c7d4e8;background:#eaf2ff;color:#083d80;padding:9px 10px;border-radius:9px;font-size:12px;font-weight:850}.map-editor{margin-top:10px;padding:11px;border:1px solid #d5e3f4;border-radius:11px;background:#f4f8ff}.map-editor[hidden]{display:none}.map-editor .field{margin:6px 0}.map-editor p{margin:4px 0 8px;color:#4e617d;font-size:12px}.map-editor .edit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.map-editor label{font-size:12px;font-weight:800}.map-caption{color:#63748a;font-size:12px;line-height:1.4;margin-top:8px}.map-position-state{font-size:12px;font-weight:800;color:#34516f;margin:5px 0}.map-fit-flash{animation:mapBlink .42s ease-out}@keyframes mapPulse{0%{opacity:.95;transform:scale(.5)}75%,100%{opacity:0;transform:scale(1.8)}}@keyframes mapDash{to{border-left-color:#fff}}@keyframes mapPop{0%{transform:scale(.5)}55%{transform:scale(1.65)}100%{transform:scale(1)}}@keyframes mapBlink{50%{filter:brightness(1.12)}}@media(prefers-reduced-motion:reduce){.map-marker:before,.map-marker:after,.map-marker .map-dot,.map-pin-label:after{animation:none!important}}
 .map-board.map-zoomed{width:1050px}.map-board.map-zoomed img{width:100%}.map-viewport{max-height:72vh}.map-board{min-width:0}.map-pin-label{z-index:4}.map-marker{filter:drop-shadow(0 1px 3px #fff)}
+
+/* Multi-user: Firestore status / admin-only publishing */
+.sync-banner{margin:0 0 12px;padding:11px 13px;border-radius:12px;border:1px solid #d6dfed;background:#edf3fd;color:#174578;font-size:12px;font-weight:750;line-height:1.55}
+.sync-banner.online{background:#e9f9f0;border-color:#b9dfc9;color:#08663f}
+.sync-banner.warning{background:#fff6df;border-color:#e9d59a;color:#7b5205}
+.sync-banner.error{background:#ffeded;border-color:#e5bbbb;color:#962829}
+.cloud-help{color:#65758e;font-size:12px;line-height:1.5;margin:5px 0 13px}
+.cloud-login{background:#f5f8ff;border:1px solid #dae4f4;padding:12px;border-radius:12px;margin:11px 0}
+.cloud-login label{display:block;font-size:12px;font-weight:850;margin:8px 0 4px}
+.cloud-login input{width:100%;border:1px solid #cbd7e8;border-radius:9px;padding:10px;background:white}
+.cloud-login button{margin-top:10px;width:100%}
+.cloud-account{display:flex;align-items:center;gap:9px;justify-content:space-between;flex-wrap:wrap;margin:10px 0}
+.cloud-account span{min-width:0;overflow-wrap:anywhere;font-size:12px;font-weight:800;color:#24517e}
+.cloud-account button{border:1px solid #ccd5e6;background:#fff;border-radius:9px;padding:7px 10px}
+#adminControls[hidden],#adminLoginBox[hidden],#adminAccountBox[hidden]{display:none!important}
+#cloud-status{font-size:12px;font-weight:750;padding:10px;border-radius:10px;background:#f5f7fd;color:#34496c;line-height:1.55}
+#adminControls{margin-top:10px;border-top:1px solid #e5ebf3;padding-top:12px}
+#adminControls button{width:100%}
 </style></head><body>
 <header><div class="topline"><div><div class="brand">▥ Locator Planogram</div></div><button class="menu" id="settingsBtn">⚙ Data PDF</button></div></header>
 <main>
 <section class="page" id="homePage">
+<div class="sync-banner warning" id="syncBanner" role="status" aria-live="polite">Menghubungkan planogram bersama…</div>
 <section id="retailScanner" class="card retail-scanner" aria-label="Scanner barcode kamera"><div class="retail-scanner-head"><div class="retail-scanner-title"><span class="retail-scanner-mark">▥</span><div><strong>Scanner Barcode</strong><small id="scanEngineText">Kamera belakang</small></div></div><button id="scanPowerBtn" type="button" class="retail-scan-power" aria-pressed="false">Aktifkan kamera</button></div><div id="scanView" class="retail-scanner-view" hidden><div class="retail-scanner-camera"><video id="scanVideo" autoplay muted playsinline></video><div class="retail-scanner-shade"><div class="retail-scanner-target"><div class="retail-scanner-line"></div></div></div><div class="retail-scanner-badge" id="scanCameraBadge">Menyiapkan…</div></div><div class="retail-scanner-controls"><span id="scanStatus" role="status">Arahkan barcode ke kotak</span><button id="scanTorchBtn" type="button" disabled>☀ Senter</button></div></div><div id="scanFoot" class="retail-scanner-foot"></div></section>
 <section class="card"><div class="label">Cari barang</div><div class="searchbox"><input id="searchInput" class="field" type="search" autocomplete="off" placeholder="Barcode, PLU, atau nama"><button id="searchBtn">Cari</button></div><div id="searchOptions"></div><div id="scanResult" class="result empty">Belum ada hasil.</div></section>
 <section class="card detail-only-card" id="rackCheckCard" hidden><button id="openRackBtn" class="primary" type="button">Detail planogram</button></section>
@@ -26,11 +45,28 @@
 </section>
 <section class="page" id="rackPage" hidden><div class="card"><button id="backBtn" class="secondary">← Kembali ke scanner</button><h2 style="margin:14px 0 6px" id="detailTitle">Detail rak</h2><div class="hint" id="detailSubtitle"></div><div class="planogram-controls"><div class="pg-control"><label for="rackSearch">Cari rak</label><input id="rackSearch" class="field" type="search" autocomplete="off" placeholder="Kode atau nama rak"><div id="rackSearchOptions" class="rack-search-options" hidden></div></div><div class="pg-control"><label for="rackSelect">Pilih rak</label><select id="rackSelect" class="field"></select></div><div class="pg-control"><label for="shelfSelect">Pilih shelf</label><select id="shelfSelect" class="field"></select></div><div class="pg-control"><label for="itemFilter">Filter item di rak</label><input id="itemFilter" class="field" placeholder="PLU, barcode, atau nama" type="search"></div></div><div class="pg-meta"><strong id="pgRackName"></strong><span id="pgCount"></span></div><label class="checkline"><input type="checkbox" id="rackCheckedDetail">Cek planogram rak</label></div><div class="shelflist" id="rackItems"></div></section>
 </main>
-<div class="settings" id="settings" hidden><div class="settings-content"><div class="settings-head"><strong>Update Data Planogram</strong><button id="closeSettings">✕</button></div><p>Impor PDF ALL PLANOGRAM dalam format laporan teks PLANOGRAM TOKO. Data akan menggantikan planogram aktif.</p><div class="source" id="data-source"></div><button class="primary" id="import-button">↑ Update Planogram (PDF)</button><input type="file" id="pdf-input" accept=".pdf,application/pdf" hidden><progress id="import-progress" hidden></progress><div id="import-status" role="status">Belum ada planogram aktif. Impor PDF toko melalui Data PDF.</div><div class="hint"></div></div></div><div class="toast" id="toast"></div>
+<div class="settings" id="settings" hidden><div class="settings-content">
+<div class="settings-head"><strong>Data Planogram Bersama</strong><button id="closeSettings">✕</button></div>
+<p>Semua HP membaca planogram yang sama. Hanya admin yang boleh mengganti PDF atau mengubah titik rak.</p>
+<div id="cloud-status" role="status">Memeriksa koneksi Firebase…</div>
+<div class="source" id="data-source"></div>
+<div id="adminLoginBox" class="cloud-login" hidden>
+<strong>Masuk sebagai admin</strong><div class="cloud-help">Karyawan tidak perlu login. Menu ini hanya untuk pengelola planogram.</div>
+<label for="adminEmail">Email admin</label><input id="adminEmail" type="email" inputmode="email" autocomplete="username" placeholder="admin@email.com">
+<label for="adminPassword">Password admin</label><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password Firebase Authentication">
+<button id="adminLoginBtn" class="primary" type="button">Masuk admin</button>
+</div>
+<div class="cloud-account" id="adminAccountBox" hidden><span id="adminAccountLabel"></span><button id="adminLogoutBtn" type="button">Keluar</button></div>
+<div id="adminControls" hidden><strong>Publikasikan planogram baru</strong><p class="cloud-help">Impor PDF di HP admin → data dikirim ke Firestore → HP karyawan menerima pembaruan otomatis. Data lama baru diganti setelah semua bagian berhasil terkirim.</p>
+<button class="primary" id="import-button" type="button">↑ Upload &amp; Sinkronkan PDF</button>
+<input type="file" id="pdf-input" accept=".pdf,application/pdf" hidden><progress id="import-progress" hidden></progress></div>
+<div id="import-status" role="status">Menunggu planogram dari admin…</div>
+</div></div><div class="toast" id="toast"></div>
+<script src="firebase-config.js"></script>
 <script>
 (()=>{'use strict';
 const EMBEDDED_DATA={"meta":{"store":"Belum ada data planogram","sourceDate":"Belum diimpor","printDate":"","rackCount":0,"itemCount":0,"pageCount":0,"sourceFile":""},"racks":[],"items":[]};
-const DATA_KEY='grandopening-kz01-planogram-v1',CHECK_KEY='grandopening-kz01-rack-check-v1';
+const DATA_KEY='grandopening-kz01-shared-cache-v1',CHECK_KEY='grandopening-kz01-rack-check-v1';
 const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function saved(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
 let data=saved(DATA_KEY,null);if(!data?.items?.length)data=EMBEDDED_DATA;
@@ -53,7 +89,7 @@ function renderRack(){const q=$('itemFilter').value.toLowerCase().trim(),shelf=$
 function showRackOptions(){const q=$('rackSearch').value.trim().toLowerCase();if(!q){$('rackSearchOptions').hidden=true;return}const matches=data.racks.filter(r=>r.code.toLowerCase().includes(q)||r.name.toLowerCase().includes(q)).slice(0,25);$('rackSearchOptions').innerHTML=matches.map(r=>`<button type="button" data-rack="${esc(r.code)}"><strong>${esc(r.code)}</strong><small>${esc(r.name)}</small></button>`).join('')||'<div class="hint" style="padding:10px">Rak tidak ditemukan</div>';$('rackSearchOptions').hidden=false;document.querySelectorAll('#rackSearchOptions [data-rack]').forEach(b=>b.onclick=()=>setDetailRack(b.dataset.rack))}
 function searchManual(){const key=$('searchInput').value.trim();if(!key){$('searchOptions').innerHTML='';return}const match=lookupPlanogram(key);if(match.index>=0){displayMatch(key,match);return}if(match.rule==='ambiguous'){$('searchOptions').innerHTML='<div class="hint">Barcode cocok dengan lebih dari satu PLU. Cari menggunakan PLU atau nama lengkap.</div>';return}const found=data.items.filter(x=>x.name.toLowerCase().includes(key.toLowerCase())||x.plu.includes(key)||String(x.barcode).includes(key)).slice(0,15);const unique=[...new Map(found.map(x=>[x.plu,x])).values()];$('searchOptions').innerHTML=unique.map(x=>`<button class="rack-option" data-plu="${esc(x.plu)}"><b>${esc(x.name)}</b><div class="hint">PLU ${esc(x.plu)} · ${esc(x.locationCode)}</div></button>`).join('')||'<div class="hint">Barang tidak ditemukan di planogram aktif.</div>';document.querySelectorAll('#searchOptions [data-plu]').forEach(b=>b.onclick=()=>{const x=data.items.find(x=>x.plu===b.dataset.plu);displayMatch(key,{index:data.items.indexOf(x),rule:'manual'})})}
 function modalSedangTerbuka(){return !$('homePage').hidden?false:true}
-function updateSourceLabel(){$('data-source').textContent=`Data aktif: ${data.meta.sourceDate||'Tidak diketahui'} · ${data.racks.length} rak · ${data.items.length.toLocaleString('id-ID')} item`; $('footerData').textContent=`Data planogram: ${data.meta.sourceDate||'Tidak diketahui'} · ${data.items.length.toLocaleString('id-ID')} item`}
+function updateSourceLabel(){$('data-source').textContent=`Data aktif: ${data.meta.sourceDate||'Belum diimpor'} · ${data.racks.length} rak · ${data.items.length.toLocaleString('id-ID')} item`; $('footerData').textContent=`Data bersama KZ01: ${data.meta.sourceDate||'Belum ada'} · ${data.items.length.toLocaleString('id-ID')} item`}
 function readPdfLiteral(s) {
       const values=[];
       for(let i=0;i<s.length;i++){
@@ -173,7 +209,20 @@ function readPdfLiteral(s) {
       return {meta:{store:store||"Planogram toko yang diimpor",sourceDate,printDate,rackCount:rackList.length,itemCount:items.length,pageCount,sourceFile:file.name,importedAt:new Date().toISOString()},racks:rackList,items};
     }
     
-async function importPdf(file){if(!file)return;$('import-button').disabled=true;$('import-progress').hidden=false;$('import-status').textContent='Membaca PDF…';try{const next=await parsePlanogramOffline(file,msg=>$('import-status').textContent=msg);if(!confirm(`Update data planogram?\n${next.meta.sourceDate} · ${next.racks.length} rak · ${next.items.length} item\n\nData sebelumnya akan diganti. Checklist rak tidak dihapus.`)){$('import-status').textContent='Dibatalkan';return}localStorage.setItem(DATA_KEY,JSON.stringify(next));data=next;rebuildIndex();current=null;selectedRack='';$('rackCheckCard').hidden=true;$('scanResult').className='result empty';$('scanResult').textContent='Data diperbarui. Scan barcode untuk mencari lokasi.';updateSourceLabel();$('import-status').textContent='✓ Update berhasil.';fillMapRackSelect();targetMapRack('',false);const mapped=next.racks.filter(r=>pointFor(r.code)).length;$('import-status').textContent+=' '+mapped+' dari '+next.racks.length+' rak cocok dengan denah.';toast(mapped+' rak siap ditunjuk di denah')}catch(e){$('import-status').textContent='Gagal: '+e.message;toast('Data lama tetap aman')}finally{$('import-button').disabled=false;$('import-progress').hidden=true;$('pdf-input').value=''}}
+async function importPdf(file){
+ if(!file)return;
+ if(!isCloudAdmin()){toast('Hanya admin yang boleh upload PDF');return;}
+ $('import-button').disabled=true;$('import-progress').hidden=false;$('import-status').textContent='Membaca PDF…';
+ try{
+  const next=await parsePlanogramOffline(file,msg=>$('import-status').textContent=msg);
+  const message=`Publikasikan planogram ke SEMUA HP?\n${next.meta.sourceDate} · ${next.racks.length} rak · ${next.items.length} item\n\nData bersama sebelumnya akan diganti sesudah upload selesai. Checklist pribadi tidak dihapus.`;
+  if(!confirm(message)){$('import-status').textContent='Dibatalkan. Tidak ada data server yang berubah.';return;}
+  await publishSharedPlanogram(next, msg=>$('import-status').textContent=msg);
+  $('import-status').textContent='✓ Terpublikasi! Semua HP yang online akan otomatis memperbarui data.';
+  toast('Planogram berhasil dibagikan ke semua HP');
+ }catch(e){$('import-status').textContent='Gagal upload: '+friendlyCloudError(e)+' — data lama di server tidak diganti.';toast('Upload gagal; data bersama tetap aman')}
+ finally{$('import-button').disabled=false;$('import-progress').hidden=true;$('pdf-input').value=''}
+}
 $('settingsBtn').onclick=()=>$('settings').hidden=false;$('closeSettings').onclick=()=>$('settings').hidden=true;$('import-button').onclick=()=>$('pdf-input').click();$('pdf-input').onchange=e=>importPdf(e.target.files[0]);$('searchBtn').onclick=searchManual;$('searchInput').addEventListener('input',()=>{clearTimeout(searchManual.timer);searchManual.timer=setTimeout(searchManual,170)});$('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key==='Tab'){e.preventDefault();searchManual()}});$('rackCheckedDetail').onchange=e=>setCheck(detailRack,e.target.checked);$('openRackBtn').onclick=()=>openRack(selectedRack);$('backBtn').onclick=()=>{$('rackPage').hidden=true;$('homePage').hidden=false;window.scrollTo(0,0)};$('shelfSelect').onchange=renderRack;$('itemFilter').oninput=renderRack;$('rackSelect').onchange=e=>setDetailRack(e.target.value);$('rackSearch').oninput=showRackOptions;
 rebuildIndex();updateSourceLabel();
 const panel=document.getElementById('retailScanner'),view=document.getElementById('scanView'),video=document.getElementById('scanVideo'),power=document.getElementById('scanPowerBtn'),torch=document.getElementById('scanTorchBtn'),status=document.getElementById('scanStatus'),badge=document.getElementById('scanCameraBadge'),engineText=document.getElementById('scanEngineText');const cameraBox=panel.querySelector('.retail-scanner-camera'),target=panel.querySelector('.retail-scanner-target');
@@ -454,8 +503,8 @@ const mapPointCount=Object.keys(DEFAULT_MAP_POINTS).length;
 function fillMapRackSelect(){const codes=data.racks.map(r=>r.code).sort();$('mapRackSelect').innerHTML=codes.map(c=>'<option value="'+esc(c)+'">'+esc(c)+' · '+esc((data.racks.find(r=>r.code===c)||{}).name||'')+'</option>').join('');if(mapTargetRack&&codes.includes(mapTargetRack))$('mapRackSelect').value=mapTargetRack;}
 function targetMapRack(code,animate=true){mapTargetRack=String(code||'');const target=pointFor(mapTargetRack);if(target&&target.view!==mapView)switchMapView(target.view);if($('mapRackSelect').options.length&&[...$('mapRackSelect').options].some(o=>o.value===mapTargetRack))$('mapRackSelect').value=mapTargetRack;renderMapMarker(animate);}
 function renderMapMarker(animate=true){const p=pointFor(mapTargetRack),visible=!!p&&p.view===mapView;$('mapRackBadge').textContent=mapTargetRack?'Rak '+mapTargetRack:'Pilih barang';$('mapMarker').hidden=!visible;$('mapNoPoint').hidden=visible;if(visible){$('mapMarker').style.left=p.x+'%';$('mapMarker').style.top=p.y+'%';$('mapPinLabel').textContent=p.name||mapTargetRack;if(animate){$('mapMarker').classList.remove('updated');void $('mapMarker').offsetWidth;$('mapMarker').classList.add('updated');}}else $('mapNoPoint').textContent=mapEditing?'Ketuk posisi rak di denah untuk memasang titik.':mapTargetRack?'Rak '+mapTargetRack+' tidak tercantum di denah ini. Atur titik secara manual jika memang ada di toko.':'Scan barang untuk melihat posisi rak.';$('mapPhysicalName').value=p?.name||'';$('mapPositionState').textContent=p?'Denah '+(p.view===0?'kiri':'kanan')+' · '+p.x.toFixed(1)+'% / '+p.y.toFixed(1)+'%':'Rak ini belum diberi titik.';}
-function persistMap(){try{localStorage.setItem(MAP_STORE_KEY,JSON.stringify(mapOverrides))}catch(e){toast('Gagal menyimpan titik rak')}}
-function setMapEdit(enabled){mapEditing=!!enabled;$('mapEditor').hidden=!mapEditing;$('mapBoard').classList.toggle('map-edit',mapEditing);$('mapToggleEdit').textContent=mapEditing?'Selesai atur titik':'Atur titik rak';if(mapEditing){fillMapRackSelect();if(!mapTargetRack)targetMapRack($('mapRackSelect').value,false)}renderMapMarker(false)}
+function persistMap(){try{localStorage.setItem(MAP_STORE_KEY,JSON.stringify(mapOverrides))}catch(e){console.warn('Cache titik tidak tersimpan',e)}publishMapOverrides()}
+function setMapEdit(enabled){if(enabled&&!isCloudAdmin()){toast('Masuk sebagai admin di Data PDF untuk mengatur titik rak');return;}mapEditing=!!enabled;$('mapEditor').hidden=!mapEditing;$('mapBoard').classList.toggle('map-edit',mapEditing);$('mapToggleEdit').textContent=mapEditing?'Selesai atur titik':'Atur titik rak';if(mapEditing){fillMapRackSelect();if(!mapTargetRack)targetMapRack($('mapRackSelect').value,false)}renderMapMarker(false)}
 $('mapToggleEdit').onclick=()=>setMapEdit(!mapEditing);$('mapCancelEdit').onclick=()=>setMapEdit(false);
 $('mapZoomBtn').onclick=()=>{mapZoomed=!mapZoomed;$('mapBoard').classList.toggle('map-zoomed',mapZoomed);$('mapZoomBtn').textContent=mapZoomed?'Perkecil denah':'Perbesar denah';};
 $('mapRackSelect').onchange=()=>targetMapRack($('mapRackSelect').value);
@@ -464,6 +513,168 @@ $('mapPhysicalName').onchange=()=>{const rackKey=normalizeRackCode($('mapRackSel
 $('mapRemovePoint').onclick=()=>{const c=$('mapRackSelect').value;if(!pointFor(c))return;if(confirm('Hapus penanda rak '+c+'?')){mapOverrides[normalizeRackCode(c)]=null;persistMap();renderMapMarker(false)}};
 $('mapRestorePoint').onclick=()=>{const key=normalizeRackCode($('mapRackSelect').value);delete mapOverrides[key];persistMap();renderMapMarker(true);toast('Titik bawaan '+key+' dipulihkan')};
 fillMapRackSelect();renderMapMarker(false);
+
+// ================== KZ01 CLOUD SYNC (FIREBASE) ==================
+// Config is a PUBLIC Firebase Web configuration, not a secret or admin password.
+// Firestore Security Rules are the real write-permission guard.
+const CLOUD_STORE_ID='KZ01';
+const cloudConfig=window.PLANOGRAM_FIREBASE_CONFIG||{};
+let cloudApi=null,cloudDb=null,cloudAuth=null,cloudUser=null;
+let cloudLive=false,lastLoadedRevision='',loadingRevision='',loadSequence=0,mapSaveTimer=0;
+function isCloudConfigured(){return !!(cloudConfig.apiKey&&cloudConfig.authDomain&&cloudConfig.projectId&&cloudConfig.appId&&cloudConfig.adminUid&& !String(cloudConfig.apiKey).includes('GANTI_'))}
+function isCloudAdmin(){return !!(cloudLive&&cloudUser&&cloudConfig.adminUid&&cloudUser.uid===cloudConfig.adminUid)}
+function friendlyCloudError(err){
+ const code=String(err?.code||'');
+ if(code.includes('permission-denied'))return 'Izin Firestore ditolak. Periksa Security Rules dan UID admin';
+ if(code.includes('invalid-credential')||code.includes('wrong-password')||code.includes('invalid-login-credentials'))return 'Email atau password salah';
+ if(code.includes('network')||code.includes('unavailable'))return 'Koneksi internet atau Firestore bermasalah';
+ return String(err?.message||err||'Terjadi kesalahan').slice(0,230);
+}
+function cloudState(label,kind='warning'){
+ const el=$('syncBanner');el.textContent=label;el.className='sync-banner '+kind;
+ $('cloud-status').textContent=label;
+}
+function refreshCloudAdminUI(){
+ const ready=cloudLive,admin=isCloudAdmin();
+ $('adminControls').hidden=!admin;
+ $('adminLoginBox').hidden=!ready||!!cloudUser;
+ $('adminAccountBox').hidden=!ready||!cloudUser;
+ $('adminAccountLabel').textContent=cloudUser?(admin?'Admin: ':'Akun tanpa izin admin: ')+(cloudUser.email||cloudUser.uid):'';
+ $('mapToggleEdit').disabled=!admin;
+ $('mapToggleEdit').title=admin?'Atur titik rak untuk semua HP':'Masuk sebagai admin melalui Data PDF untuk mengubah denah';
+ if(!admin&&mapEditing)setMapEdit(false);
+}
+function applySharedData(next,revision){
+ // Only commit after every chunk has passed validation. Checklists remain per-device.
+ data=next;lastLoadedRevision=revision;
+ try{localStorage.setItem(DATA_KEY,JSON.stringify(next))}catch(e){console.warn('Cache HP penuh; data cloud tetap aktif.',e)}
+ rebuildIndex();current=null;selectedRack='';detailRack='';
+ $('rackCheckCard').hidden=true;$('scanResult').className='result empty';
+ $('scanResult').textContent='Planogram terbaru siap. Scan barcode untuk mencari lokasi.';
+ $('searchOptions').innerHTML='';$('rackPage').hidden=true;$('homePage').hidden=false;
+ fillMapRackSelect();targetMapRack('',false);updateSourceLabel();
+ const mapped=next.racks.filter(r=>pointFor(r.code)).length;
+ $('import-status').textContent=`Sinkron: ${next.meta.sourceDate} · ${next.items.length.toLocaleString('id-ID')} item · ${mapped}/${next.racks.length} rak terpetakan.`;
+}
+function chunkItems(rows,max=150){const out=[];for(let i=0;i<rows.length;i+=max)out.push(rows.slice(i,i+max));return out;}
+async function publishSharedPlanogram(next,onProgress=()=>{}){
+ if(!isCloudAdmin()||!cloudApi)throw new Error('Masuk sebagai admin terlebih dahulu');
+ if(!next?.items?.length||!next?.racks?.length)throw new Error('Planogram kosong');
+ const fs=cloudApi.fs;
+ const revision='v'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,9);
+ const chunks=chunkItems(next.items);
+ if(chunks.length>350)throw new Error('Data terlalu besar untuk upload browser');
+ const base=fs.collection(cloudDb,'planograms',CLOUD_STORE_ID,'versions',revision,'chunks');
+ for(let start=0;start<chunks.length;start+=8){
+  if(!isCloudAdmin())throw new Error('Sesi admin berakhir selama upload');
+  const batch=fs.writeBatch(cloudDb);
+  for(let i=start;i<Math.min(start+8,chunks.length);i++){
+    batch.set(fs.doc(base,String(i).padStart(4,'0')),{index:i,items:chunks[i]});
+  }
+  await batch.commit();
+  onProgress(`Mengirim data ke server… ${Math.min(start+8,chunks.length)}/${chunks.length} bagian`);
+ }
+ // Publish pointer LAST. Older revision remains active if any chunk write fails.
+ onProgress('Semua bagian terkirim. Menerbitkan versi baru…');
+ const manifest={revision,chunkCount:chunks.length,itemCount:next.items.length,racks:next.racks,meta:next.meta,updatedAt:fs.serverTimestamp(),updatedBy:cloudUser.uid};
+ await fs.setDoc(fs.doc(cloudDb,'planograms',CLOUD_STORE_ID),manifest);
+ // Listener will hydrate same data on this device and on every other online device.
+}
+async function loadRevision(manifest){
+ if(!manifest?.revision||!Number.isInteger(manifest.chunkCount)||manifest.chunkCount<1||manifest.chunkCount>350)throw new Error('Manifest database tidak valid');
+ const seq=++loadSequence,revision=manifest.revision;
+ loadingRevision=revision;
+ cloudState(`Mengunduh planogram bersama (${manifest.meta?.sourceDate||'versi terbaru'})…`,'warning');
+ try{
+  const fs=cloudApi.fs;
+  const snap=await fs.getDocs(fs.collection(cloudDb,'planograms',CLOUD_STORE_ID,'versions',revision,'chunks'));
+  const parts=snap.docs.map(d=>d.data()).sort((a,b)=>a.index-b.index);
+  if(seq!==loadSequence)return;
+  if(parts.length!==manifest.chunkCount||parts.some((p,i)=>p.index!==i||!Array.isArray(p.items)))throw new Error('Sebagian data server belum lengkap');
+  const items=parts.flatMap(p=>p.items);
+  if(items.length!==manifest.itemCount||!Array.isArray(manifest.racks)||!manifest.racks.length||!items.every(p=>p.plu&&p.rack&&p.barcode))throw new Error('Jumlah atau struktur item tidak cocok');
+  const next={meta:manifest.meta||{},racks:manifest.racks,items};
+  applySharedData(next,revision);
+  cloudState(`✓ Tersinkron · ${items.length.toLocaleString('id-ID')} barang · ${next.racks.length} rak · ${next.meta.sourceDate||'terbaru'}`,'online');
+  toast('Data planogram terbaru diterima');
+ }catch(e){
+  if(seq!==loadSequence)return;
+  cloudState('Data lokal masih bisa dipakai. Gagal memuat versi terbaru: '+friendlyCloudError(e),'error');
+ }finally{if(loadingRevision===revision)loadingRevision='';}
+}
+function watchSharedManifest(){
+ const fs=cloudApi.fs;
+ fs.onSnapshot(fs.doc(cloudDb,'planograms',CLOUD_STORE_ID),{includeMetadataChanges:true},snapshot=>{
+  if(!snapshot.exists()){
+   if(snapshot.metadata?.fromCache)cloudState('Offline atau belum menerima data server. '+(data.items.length?'Menampilkan data cache.':'Belum ada data planogram.'),'warning');
+   else cloudState('Terhubung. Belum ada planogram bersama; admin perlu upload PDF.','warning');
+   return;
+  }
+  const entry=snapshot.data();
+  if(snapshot.metadata?.fromCache && entry?.revision===lastLoadedRevision){cloudState('Offline · menampilkan planogram tersimpan di HP','warning');return;}
+  if(entry?.revision===lastLoadedRevision){cloudState(`✓ Tersinkron · ${data.items.length.toLocaleString('id-ID')} barang · ${data.racks.length} rak`,'online');return;}
+  if(entry?.revision===loadingRevision)return;
+  loadRevision(entry);
+ },e=>cloudState('Sinkronisasi terganggu: '+friendlyCloudError(e)+'. '+(data.items.length?'Cache masih tersedia.':''),'error'));
+}
+function watchSharedMap(){
+ const fs=cloudApi.fs;
+ fs.onSnapshot(fs.doc(cloudDb,'planograms',CLOUD_STORE_ID,'settings','map'),snap=>{
+  // Skip a cache-only missing document; wait for server to decide there is no map override.
+  if(!snap.exists()&&snap.metadata?.fromCache)return;
+  // Do not overwrite admin's unsaved marker while the debounce is in progress.
+  if(mapSaveTimer)return;
+  const serverPoints=snap.exists()?snap.data().points:{};
+  if(serverPoints&&typeof serverPoints==='object'&&!Array.isArray(serverPoints)){
+   mapOverrides=serverPoints;
+   try{localStorage.setItem(MAP_STORE_KEY,JSON.stringify(mapOverrides))}catch(e){}
+   renderMapMarker(false);
+  }
+ },e=>console.warn('Sinkron titik rak belum tersedia:',e));
+}
+async function initCloud(){
+ refreshCloudAdminUI();
+ if(!isCloudConfigured()){
+  cloudState('⚠ Firebase belum diatur. Isi firebase-config.js dan pasang Firestore Rules sebelum link dibagikan.','error');
+  $('import-status').textContent='Admin: selesaikan konfigurasi Firebase pada paket deploy.';
+  return;
+ }
+ try{
+  const version='13.3.0',base='https://www.gstatic.com/firebasejs/'+version+'/';
+  const [app,fs,auth]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-firestore.js'),import(base+'firebase-auth.js')]);
+  cloudApi={fs,auth};cloudDb=fs.getFirestore(app.initializeApp({apiKey:cloudConfig.apiKey,authDomain:cloudConfig.authDomain,projectId:cloudConfig.projectId,appId:cloudConfig.appId}));
+  cloudAuth=auth.getAuth();
+  await auth.setPersistence(cloudAuth,auth.browserSessionPersistence);
+  cloudLive=true;
+  auth.onAuthStateChanged(cloudAuth,user=>{cloudUser=user;refreshCloudAdminUI()});
+  cloudState('Terhubung ke Firebase · mengambil data planogram bersama…','warning');
+  refreshCloudAdminUI();watchSharedManifest();watchSharedMap();
+ }catch(e){cloudLive=false;refreshCloudAdminUI();cloudState('Tidak bisa menghubungkan Firebase: '+friendlyCloudError(e),'error');}
+}
+$('adminLoginBtn').onclick=async()=>{
+ if(!cloudLive||!cloudAuth)return;
+ const email=$('adminEmail').value.trim(),password=$('adminPassword').value;
+ if(!email||!password){toast('Isi email dan password admin');return;}
+ $('adminLoginBtn').disabled=true;$('adminLoginBtn').textContent='Memeriksa akun…';
+ try{
+  const cred=await cloudApi.auth.signInWithEmailAndPassword(cloudAuth,email,password);
+  $('adminPassword').value='';
+  if(cred.user.uid!==cloudConfig.adminUid)toast('Akun ini bukan admin KZ01. Periksa UID di konfigurasi.');
+  else toast('Login admin berhasil');
+ }catch(e){toast(friendlyCloudError(e))}
+ finally{$('adminLoginBtn').disabled=false;$('adminLoginBtn').textContent='Masuk admin';}
+};
+$('adminLogoutBtn').onclick=async()=>{if(cloudAuth)await cloudApi.auth.signOut(cloudAuth);toast('Keluar dari admin')};
+function publishMapOverrides(){
+ if(!isCloudAdmin()){toast('Hanya admin yang bisa membagikan titik rak');return;}
+ clearTimeout(mapSaveTimer);
+ mapSaveTimer=setTimeout(async()=>{
+  mapSaveTimer=0;
+  try{await cloudApi.fs.setDoc(cloudApi.fs.doc(cloudDb,'planograms',CLOUD_STORE_ID,'settings','map'),{points:mapOverrides,updatedAt:cloudApi.fs.serverTimestamp(),updatedBy:cloudUser.uid});}
+  catch(e){toast('Gagal sinkron titik rak: '+friendlyCloudError(e));}
+ },300);
+}
+initCloud();
 
 })();
 </script></body></html>
