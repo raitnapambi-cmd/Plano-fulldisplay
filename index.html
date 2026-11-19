@@ -8,14 +8,23 @@
 
 /* Layout interaktif, marker disimpan per rak di perangkat */
 .map-marker[hidden],.map-no-point[hidden],.map-editor[hidden]{display:none!important}.map-card{padding:12px}.map-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.map-head strong{font-size:1rem}.map-views{display:flex;gap:7px;margin:0 0 9px}.map-views button{flex:1;border:1px solid #c8d4e5;border-radius:10px;background:#f0f5fb;color:#123d78;padding:9px;font-weight:800}.map-views button.active{background:#0755c9;color:#fff}.map-viewport{width:100%;max-height:510px;overflow:auto;border:1px solid #dce3ed;border-radius:12px;background:#f8f8f8}.map-board{position:relative;width:100%;min-width:290px;line-height:0;cursor:default}.map-board.map-edit{cursor:crosshair;outline:3px solid #ffbd4e;outline-offset:-3px}.map-board img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}.map-marker{position:absolute;width:50px;height:50px;transform:translate(-50%,-50%);pointer-events:none;z-index:3;display:grid;place-items:center}.map-marker .map-dot{width:18px;height:18px;border:4px solid white;border-radius:50%;background:#e01727;box-shadow:0 0 0 2px #d61929,0 2px 9px #0005}.map-marker:before,.map-marker:after{content:'';position:absolute;border:3px solid #e01727;border-radius:50%;width:27px;height:27px;animation:mapPulse 1.8s ease-out infinite}.map-marker:after{animation-delay:.9s}.map-pin-label{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);color:#fff;background:#b91c1c;padding:6px 9px;border-radius:8px;font-size:12px;font-weight:950;line-height:1.1;white-space:nowrap;box-shadow:0 2px 8px #0004}.map-pin-label:after{content:'';position:absolute;top:100%;left:50%;height:18px;border-left:2px dashed #e01727;animation:mapDash 1s linear infinite}.map-marker.updated .map-dot{animation:mapPop .4s ease-out}.map-no-point{position:absolute;left:8px;right:8px;bottom:8px;background:#fffef2eb;border:1px solid #f5d88c;border-radius:9px;padding:9px;color:#6c4d07;font-size:12px;line-height:1.4}.map-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.map-actions button{border:1px solid #c7d4e8;background:#eaf2ff;color:#083d80;padding:9px 10px;border-radius:9px;font-size:12px;font-weight:850}.map-editor{margin-top:10px;padding:11px;border:1px solid #d5e3f4;border-radius:11px;background:#f4f8ff}.map-editor[hidden]{display:none}.map-editor .field{margin:6px 0}.map-editor p{margin:4px 0 8px;color:#4e617d;font-size:12px}.map-editor .edit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.map-editor label{font-size:12px;font-weight:800}.map-caption{color:#63748a;font-size:12px;line-height:1.4;margin-top:8px}.map-position-state{font-size:12px;font-weight:800;color:#34516f;margin:5px 0}.map-fit-flash{animation:mapBlink .42s ease-out}@keyframes mapPulse{0%{opacity:.95;transform:scale(.5)}75%,100%{opacity:0;transform:scale(1.8)}}@keyframes mapDash{to{border-left-color:#fff}}@keyframes mapPop{0%{transform:scale(.5)}55%{transform:scale(1.65)}100%{transform:scale(1)}}@keyframes mapBlink{50%{filter:brightness(1.12)}}@media(prefers-reduced-motion:reduce){.map-marker:before,.map-marker:after,.map-marker .map-dot,.map-pin-label:after{animation:none!important}}
-.map-board.map-zoomed{width:118%}.map-board.map-zoomed img{width:100%}.map-viewport{max-height:72vh}.map-board{min-width:0}.map-card{scroll-margin-top:80px}.map-pin-label{z-index:4;font-size:14px;padding:7px 11px}.map-marker{filter:drop-shadow(0 1px 3px #fff)}
+.map-board.map-zoomed{width:118%}.map-board.map-zoomed img{width:100%}.map-viewport{max-height:none}.map-board{min-width:0}.map-card{scroll-margin-top:80px}.map-pin-label{z-index:4;font-size:14px;padding:7px 11px}.map-marker{filter:drop-shadow(0 1px 3px #fff)}
 
 /* vNext: tampilan app mobile fixed, tanpa zoom halaman; layout tetap bisa di-zoom melalui tombol. */
 html,body{width:100%;max-width:100%;overflow-x:hidden;overscroll-behavior-x:none;touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 /* Safari iOS membesarkan halaman saat fokus input yang font-nya kurang dari 16px. */
 input,select,textarea{font-size:16px!important}
 /* Layout tetap dapat digeser atas-bawah dan kiri-kanan setelah pembesaran internal. */
-#mapViewport{touch-action:pan-x pan-y;overscroll-behavior:contain}
+#mapViewport{
+  /* Jangan buat scroll vertikal tersendiri di atas gambar.
+     Geser jari di layout harus menggulir halaman utama (terutama Safari iOS). */
+  max-height:none;
+  overflow-x:auto;
+  overflow-y:hidden;
+  touch-action:pan-x pan-y;
+  overscroll-behavior:auto;
+  -webkit-overflow-scrolling:touch;
+}
 #mapImage{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 /* Penanda lebih kecil dan bergeser sedikit ke kiri agar huruf rak fisik tetap terbaca. */
 .map-marker{width:32px;height:32px;transform:translate(calc(-50% - 8px),-50%)}
@@ -205,12 +214,18 @@ $('settingsBtn').onclick=()=>$('settings').hidden=false;$('closeSettings').oncli
   $('mapBoard').classList.add('map-zoomed');
   $('mapZoomBtn').textContent='Perkecil layout';
  }
- $('mapCard').scrollIntoView({behavior:'smooth',block:'start'});
- // Posisikan penanda di bagian tengah kotak layout yang bisa digeser.
+  // Tidak ada scroll vertikal terpisah dalam layout: guliran jari
+  // di atas gambar tetap menggerakkan halaman utama pada iPhone/Android.
  requestAnimationFrame(()=>requestAnimationFrame(()=>{
   const viewport=$('mapViewport'),marker=$('mapMarker');
   if(!marker.hidden){
-   viewport.scrollTo({left:Math.max(0,marker.offsetLeft-viewport.clientWidth/2),top:Math.max(0,marker.offsetTop-viewport.clientHeight/2),behavior:'smooth'});
+    // Geser horizontal dalam layout jika posisi rak berada di luar layar.
+    viewport.scrollTo({left:Math.max(0,marker.offsetLeft-viewport.clientWidth/2),behavior:'smooth'});
+    // Bawa penanda hasil scan ke tengah layar lewat scroll halaman utama.
+    const targetY=window.scrollY+marker.getBoundingClientRect().top-Math.min(window.innerHeight*.45,310);
+    window.scrollTo({top:Math.max(0,targetY),behavior:'smooth'});
+   }else{
+    $('mapCard').scrollIntoView({behavior:'smooth',block:'start'});
   }
  }));
 };$('backBtn').onclick=()=>{$('rackPage').hidden=true;$('homePage').hidden=false;window.scrollTo(0,0)};$('shelfSelect').onchange=renderRack;$('itemFilter').oninput=renderRack;$('rackSelect').onchange=e=>setDetailRack(e.target.value);$('rackSearch').oninput=showRackOptions;
