@@ -78,6 +78,27 @@ input,select,textarea{font-size:16px!important}
 .layout-return-btn:active{background:#0646aa}
 @media(max-width:360px){.map-views{top:53px;gap:7px}.map-views button{min-height:69px;padding:9px 4px}.map-floor-name{font-size:1.01rem}.map-floor-state{font-size:.6rem}}
 
+
+/* Tombol kembali mengambang hanya saat sedang melihat gambar layout.
+   Posisi fixed di viewport: lokasi rak paling atas tetap punya tombol kembali. */
+.layout-return-wrap{
+  position:fixed;
+  left:12px;
+  right:12px;
+  bottom:calc(13px + env(safe-area-inset-bottom, 0px));
+  z-index:20;
+  max-width:680px;
+  margin:0 auto;
+  pointer-events:auto;
+}
+.layout-return-wrap[hidden]{display:none!important}
+.layout-return-wrap .layout-return-btn{
+  width:100%;
+  min-height:52px;
+  box-shadow:0 4px 18px #062f7c55;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
 </style></head><body>
 <div id="launchSplash" aria-hidden="true"><div><strong>Planogram DS Kebon Kacang</strong><span>by Raitttt</span></div></div>
 <header><div class="topline"><div><div class="brand">▥ Planogram DS by rait</div></div><button class="menu" id="settingsBtn">⚙ Data PDF</button></div></header>
@@ -288,8 +309,33 @@ function readPdfLiteral(s) {
     }
     
 async function importPdf(file){if(!file)return;$('import-button').disabled=true;$('import-progress').hidden=false;$('import-status').textContent='Membaca PDF…';try{const next=await parsePlanogramOffline(file,msg=>$('import-status').textContent=msg);if(!confirm(`Update data planogram?\n${next.meta.sourceDate} · ${next.racks.length} rak · ${next.items.length} item\n\nData sebelumnya akan diganti. Checklist rak tidak dihapus.`)){$('import-status').textContent='Dibatalkan';return}localStorage.setItem(DATA_KEY,JSON.stringify(next));data=next;rebuildIndex();current=null;selectedRack='';$('rackCheckCard').hidden=true;$('scanResult').className='result empty';$('scanResult').textContent='Data diperbarui. Scan barcode untuk mencari lokasi.';updateSourceLabel();$('import-status').textContent='✓ Update berhasil.';fillMapRackSelect();targetMapRack('',false);const mapped=next.racks.filter(r=>pointFor(r.code)).length;$('import-status').textContent+=' '+mapped+' dari '+next.racks.length+' rak cocok dengan layout.';toast(mapped+' rak siap ditunjuk di layout')}catch(e){$('import-status').textContent='Gagal: '+e.message;toast('Data lama tetap aman')}finally{$('import-button').disabled=false;$('import-progress').hidden=true;$('pdf-input').value=''}}
-$('settingsBtn').onclick=()=>$('settings').hidden=false;$('closeSettings').onclick=()=>$('settings').hidden=true;$('import-button').onclick=()=>$('pdf-input').click();$('pdf-input').onchange=e=>importPdf(e.target.files[0]);$('searchBtn').onclick=searchManual;$('searchInput').addEventListener('input',()=>{clearTimeout(searchManual.timer);searchManual.timer=setTimeout(searchManual,170)});$('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key==='Tab'){e.preventDefault();searchManual()}});$('rackCheckedDetail').onchange=e=>setCheck(detailRack,e.target.checked);$('openRackBtn').onclick=()=>{
-  $('layoutReturnWrap').hidden=false;
+$('settingsBtn').onclick=()=>$('settings').hidden=false;$('closeSettings').onclick=()=>$('settings').hidden=true;$('import-button').onclick=()=>$('pdf-input').click();$('pdf-input').onchange=e=>importPdf(e.target.files[0]);$('searchBtn').onclick=searchManual;$('searchInput').addEventListener('input',()=>{clearTimeout(searchManual.timer);searchManual.timer=setTimeout(searchManual,170)});$('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key==='Tab'){e.preventDefault();searchManual()}});$('rackCheckedDetail').onchange=e=>setCheck(detailRack,e.target.checked);
+// Tombol kembali mengambang: aktif setelah "Lihat layout" dan hanya tampil
+// ketika area gambar layout berada di layar, bukan saat memakai scanner.
+let layoutReturnArmed=false;
+let layoutReturnFramePending=false;
+function syncLayoutReturn(){
+  const buttonWrap=$('layoutReturnWrap');
+  const layout=$('mapViewport');
+  const scanner=$('retailScanner');
+  if(!buttonWrap||!layout||!scanner)return;
+  const r=layout.getBoundingClientRect();
+  const sr=scanner.getBoundingClientRect();
+  const h=window.innerHeight||document.documentElement.clientHeight;
+  const layoutInView=r.top<h-20&&r.bottom>90;
+  const scanOutOfWay=sr.bottom<h*0.55;
+  buttonWrap.hidden=!(layoutReturnArmed&&!$('homePage').hidden&&layoutInView&&scanOutOfWay);
+}
+function scheduleLayoutReturn(){
+  if(layoutReturnFramePending)return;
+  layoutReturnFramePending=true;
+  requestAnimationFrame(()=>{layoutReturnFramePending=false;syncLayoutReturn()});
+}
+window.addEventListener('scroll',scheduleLayoutReturn,{passive:true});
+window.addEventListener('resize',scheduleLayoutReturn,{passive:true});
+window.addEventListener('pageshow',scheduleLayoutReturn);
+
+$('openRackBtn').onclick=()=>{   layoutReturnArmed=true;   syncLayoutReturn();
  // Buka langsung layout dan tampilkan titik rak hasil pencarian.
  if(selectedRack)targetMapRack(selectedRack,true);
  if(!mapZoomed){
@@ -311,7 +357,7 @@ $('settingsBtn').onclick=()=>$('settings').hidden=false;$('closeSettings').oncli
     $('mapCard').scrollIntoView({behavior:'smooth',block:'start'});
   }
  }));
-};$('returnToScannerBtn').onclick=()=>{$('retailScanner').scrollIntoView({behavior:'smooth',block:'start'});};$('backBtn').onclick=()=>{$('rackPage').hidden=true;$('homePage').hidden=false;window.scrollTo(0,0)};$('shelfSelect').onchange=renderRack;$('itemFilter').oninput=renderRack;$('rackSelect').onchange=e=>setDetailRack(e.target.value);$('rackSearch').oninput=showRackOptions;
+};$('returnToScannerBtn').onclick=()=>{layoutReturnArmed=false;syncLayoutReturn();$('retailScanner').scrollIntoView({behavior:'smooth',block:'start'});};$('backBtn').onclick=()=>{$('rackPage').hidden=true;$('homePage').hidden=false;window.scrollTo(0,0)};$('shelfSelect').onchange=renderRack;$('itemFilter').oninput=renderRack;$('rackSelect').onchange=e=>setDetailRack(e.target.value);$('rackSearch').oninput=showRackOptions;
 rebuildIndex();updateSourceLabel();
 const panel=document.getElementById('retailScanner'),view=document.getElementById('scanView'),video=document.getElementById('scanVideo'),power=document.getElementById('scanPowerBtn'),torch=document.getElementById('scanTorchBtn'),status=document.getElementById('scanStatus'),badge=document.getElementById('scanCameraBadge'),engineText=document.getElementById('scanEngineText');const cameraBox=panel.querySelector('.retail-scanner-camera'),target=panel.querySelector('.retail-scanner-target');
 let stream=null,active=false,busy=false,frameId=0,lastFrame=0,lastAccepted='',lastAcceptedAt=0;
